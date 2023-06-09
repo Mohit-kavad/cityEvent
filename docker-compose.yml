@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=mohit
+      - POSTGRES_PASSWORD=0000
+      - POSTGRES_DB=cityevents
+    container_name: postgresql
+  api:
+    build: .
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    depends_on:
+      - db
+    container_name: api
+    # command: npm start
+volumes:
+  db-data:
