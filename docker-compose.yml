@@ -6,9 +6,13 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=mohit
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=0000
       - POSTGRES_DB=cityevents
+      - POSTGRES_HOST_AUTH_METHOD=md5
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
     container_name: postgresql
   api:
     build: .
@@ -20,6 +24,7 @@ services:
     depends_on:
       - db
     container_name: api
-    # command: npm start
+    command: sh -c "npx sequelize-cli db:migrate --options-path=src/database/options.ts && npm run dev"
+
 volumes:
   db-data:

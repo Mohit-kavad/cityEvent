@@ -1,4 +1,5 @@
-import * as dotenv from "dotenv";
+// import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    host: "localhost",
+    host: process.env.DB_HOST,
     dialect: "postgres",
     logging: true,
   },

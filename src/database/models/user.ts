@@ -4,7 +4,7 @@ import {
   InferAttributes,
   InferCreationAttributes,
 } from "sequelize";
-import { sequelize } from "./../models/connection";
+import { sequelize } from "./connection";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare firstName: string;

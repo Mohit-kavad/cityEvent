@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "skipLibCheck": true,
-    "target": "es6",
+    "target": "ES6",
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -25,7 +25,7 @@
   "include": [
     "src/**/*.ts",
     "spec/**/*.ts"
-  ],
+, "config/config.ts", "src/database/**/*.js"  ],
   "exclude": [
     "node_modules"
   ]

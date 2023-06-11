@@ -17,7 +17,7 @@ sequelize
   .sync()
   .then(() => {
     app.listen(port, () => {
-      console.log(`server running on portdf  dsd  ${port}`);
+      console.log(`server running on port ${port}`);
     });
   })
   .catch((err: any) => {
