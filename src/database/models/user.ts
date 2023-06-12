@@ -7,6 +7,7 @@ import {
 import { sequelize } from "./connection";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+  declare id: number;
   declare firstName: string;
   declare lastName: string;
   declare email: string;
@@ -21,6 +22,12 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 }
 User.init(
   {
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+    },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -50,7 +57,6 @@ User.init(
     },
     gender: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     address: {
       type: DataTypes.STRING,
@@ -62,7 +68,6 @@ User.init(
     },
     profilePicture: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
   },
   {
