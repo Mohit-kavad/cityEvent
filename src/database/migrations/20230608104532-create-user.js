@@ -32,17 +32,23 @@ module.exports = {
         allowNull: false,
       },
       mobile: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DECIMAL,
         allowNull: false,
       },
       dateOfBirth: {
         type: Sequelize.DATE,
+        allowNull: true,
+        defaultValue: null,
       },
       gender: {
         type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null,
       },
       address: {
         type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null,
       },
       role: {
         type: Sequelize.STRING,
@@ -51,6 +57,8 @@ module.exports = {
       },
       profilePicture: {
         type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null,
       },
       createdAt: {
         allowNull: false,

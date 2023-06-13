@@ -54,9 +54,9 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-const updateUser = async (req: Request, res: Response) => {
-  const userID: number = +req.params.id;
-  const {} = req.body;
-};
+// const updateUser = async (req: Request, res: Response) => {
+//   const userID: number = +req.params.id;
+//   const {} = req.body;
+// };
 
-export { getUsers, getUser, deleteUser, updateUser };
+export { getUsers, getUser, deleteUser };
