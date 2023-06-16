@@ -37,16 +37,14 @@ const signUp = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-
     const userExist = await User.findOne({ where: { email: email } });
-    console.log("user is exist or not ", userExist);
+
     if (!userExist) {
       return res.status(404).json({
         message: "user does not Exist please signup",
       });
     }
     const passwordValid = await bcrypt.compare(password, userExist.password);
-    console.log("is password valid", passwordValid);
     if (!passwordValid) {
       return res.status(401).json({
         message: "Password is not valid",

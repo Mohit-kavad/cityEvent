@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../database/models/user";
+import bcrypt from "bcrypt";
 
 const getUsers = async (req: Request, res: Response) => {
   try {
@@ -54,9 +55,40 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-// const updateUser = async (req: Request, res: Response) => {
-//   const userID: number = +req.params.id;
-//   const {} = req.body;
-// };
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    //@ts-ignore
+    const userID = req.user.id;
+    console.log(userID);
 
-export { getUsers, getUser, deleteUser };
+    const userIdParam = +req.params.id;
+    console.log(userIdParam);
+
+    if (userID !== userIdParam) {
+      return res.status(401).json({
+        message: "Unauthorized to update this profile",
+      });
+    }
+
+    const user = await User.findByPk(userIdParam);
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found or deleted",
+      });
+    }
+    const updatedUser = await User.update(
+      { ...req.body, password: await bcrypt.hash(req.body.password, 12) },
+      { where: { id: userIdParam } }
+    );
+
+    res.status(200).json({
+      status: 200,
+      message: "success",
+      updatedUser,
+    });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export { getUsers, getUser, deleteUser, updateUser };
