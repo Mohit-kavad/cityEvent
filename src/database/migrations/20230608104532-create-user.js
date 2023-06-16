@@ -60,6 +60,10 @@ module.exports = {
         allowNull: true,
         defaultValue: null,
       },
+      tokenVersion: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

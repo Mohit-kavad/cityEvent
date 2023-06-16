@@ -7,6 +7,7 @@ import {
 } from "../controllers/userController";
 import { login, signUp } from "../controllers/authController";
 import { verifyToken } from "../middlewares/validation/auth/verifyToken";
+import { restrictTo } from "../middlewares/validation/auth/roleAuth";
 
 const userRouter = Router();
 
@@ -18,6 +19,6 @@ userRouter.get("/user/:id", verifyToken, getUser);
 
 userRouter.patch("/user/:id", verifyToken, updateUser);
 
-userRouter.delete("/user/:id", verifyToken, deleteUser);
+userRouter.delete("/user/:id", verifyToken, restrictTo("admin"), deleteUser);
 
 export { userRouter };

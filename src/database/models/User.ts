@@ -18,6 +18,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare gender: string;
   declare address: string;
   declare role: string;
+  declare tokenVersion: number;
   declare profilePicture: string;
 }
 User.init(
@@ -71,6 +72,10 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: "user",
+    },
+    tokenVersion: {
+      type: DataTypes.NUMBER,
+      defaultValue: 1,
     },
     profilePicture: {
       type: DataTypes.STRING,
