@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { User } from "../database/models/user";
+import { User } from "../database/models/User";
 import bcrypt from "bcrypt";
 
 const getUsers = async (req: Request, res: Response) => {
@@ -59,10 +59,7 @@ const updateUser = async (req: Request, res: Response) => {
   try {
     //@ts-ignore
     const userID = req.user.id;
-    console.log(userID);
-
     const userIdParam = +req.params.id;
-    console.log(userIdParam);
 
     if (userID !== userIdParam) {
       return res.status(401).json({
@@ -76,10 +73,25 @@ const updateUser = async (req: Request, res: Response) => {
         error: "User not found or deleted",
       });
     }
-    const updatedUser = await User.update(
-      { ...req.body, password: await bcrypt.hash(req.body.password, 12) },
-      { where: { id: userIdParam } }
-    );
+
+    // check for password update or not
+
+    const newPassword = req.body.password
+      ? await bcrypt.hash(req.body.password, 12)
+      : undefined;
+    let changeTokenVersion = user.tokenVersion;
+
+    if (newPassword) {
+      changeTokenVersion += 1;
+    }
+
+    const updateObject = newPassword
+      ? { ...req.body, password: newPassword, tokenVersion: changeTokenVersion }
+      : { ...req.body, tokenVersion: changeTokenVersion };
+
+    const updatedUser = await User.update(updateObject, {
+      where: { id: userIdParam },
+    });
 
     res.status(200).json({
       status: 200,
