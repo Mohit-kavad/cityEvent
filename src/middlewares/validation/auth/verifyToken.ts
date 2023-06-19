@@ -17,7 +17,11 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
 
     if (typeof decode !== "string") {
       const isUserExist = await User.findByPk(decode.id);
-      console.log("is user exist", isUserExist);
+      if (decode.tokenVersion !== isUserExist.tokenVersion) {
+        return res.status(401).json({
+          message: "You have recently changed your password please login",
+        });
+      }
 
       if (decode.tokenVersion !== isUserExist.tokenVersion) {
         return res.status(401).json({
@@ -36,7 +40,6 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     }
     next();
   } catch (error) {
-    console.log("============", error, "==============");
     res.status(500).json(error);
   }
 };

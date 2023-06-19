@@ -74,6 +74,7 @@ const updateUser = async (req: Request, res: Response) => {
       });
     }
 
+<<<<<<< HEAD
     // check for password update or not 
     const newPassword  =await bcrypt.hash(req.body.password, 12)
 
@@ -86,6 +87,26 @@ const updateUser = async (req: Request, res: Response) => {
       },
       { where: { id: userIdParam } }
     );
+=======
+    // check for password update or not
+
+    const newPassword = req.body.password
+      ? await bcrypt.hash(req.body.password, 12)
+      : undefined;
+    let changeTokenVersion = user.tokenVersion;
+
+    if (newPassword) {
+      changeTokenVersion += 1;
+    }
+
+    const updateObject = newPassword
+      ? { ...req.body, password: newPassword, tokenVersion: changeTokenVersion }
+      : { ...req.body, tokenVersion: changeTokenVersion };
+
+    const updatedUser = await User.update(updateObject, {
+      where: { id: userIdParam },
+    });
+>>>>>>> 1bfebad118463b3edce45400e786c869a3efe0db
 
     res.status(200).json({
       status: 200,
