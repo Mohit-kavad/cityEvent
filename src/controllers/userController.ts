@@ -73,21 +73,6 @@ const updateUser = async (req: Request, res: Response) => {
         error: "User not found or deleted",
       });
     }
-
-<<<<<<< HEAD
-    // check for password update or not 
-    const newPassword  =await bcrypt.hash(req.body.password, 12)
-
-
-    const updatedUser = await User.update(
-      {
-        ...req.body,
-        password: ,
-        tokenVersion: user.tokenVersion,
-      },
-      { where: { id: userIdParam } }
-    );
-=======
     // check for password update or not
 
     const newPassword = req.body.password
@@ -106,7 +91,6 @@ const updateUser = async (req: Request, res: Response) => {
     const updatedUser = await User.update(updateObject, {
       where: { id: userIdParam },
     });
->>>>>>> 1bfebad118463b3edce45400e786c869a3efe0db
 
     res.status(200).json({
       status: 200,

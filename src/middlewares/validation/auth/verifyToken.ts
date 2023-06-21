@@ -17,6 +17,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
 
     if (typeof decode !== "string") {
       const isUserExist = await User.findByPk(decode.id);
+
       if (decode.tokenVersion !== isUserExist.tokenVersion) {
         return res.status(401).json({
           message: "You have recently changed your password please login",

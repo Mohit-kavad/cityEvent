@@ -24,8 +24,9 @@
   },
   "include": [
     "src/**/*.ts",
-    "spec/**/*.ts"
-, "config/config.ts", "src/database/**/*.js"  ],
+    "config/config.ts",
+    "src/database/**/*.js"
+  ],
   "exclude": [
     "node_modules"
   ]

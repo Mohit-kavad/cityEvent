@@ -1,30 +1,70 @@
 version: "3.8"
 
 services:
-  db:
+  postgres:
     image: postgres
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - $HOME/db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=0000
+      - POSTGRES_PASSWORD=admin123
       - POSTGRES_DB=cityevents
-      - POSTGRES_HOST_AUTH_METHOD=md5
-      - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
       - 5432:5432
-    container_name: postgresql
-  api:
-    build: .
+    container_name: postgres
+    networks:
+      - cityevents
+
+  postgres-test:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DB=postgres
     ports:
-      - 8000:8000
+      - 5431:5432
+    container_name: postgres-test
+    networks:
+      - cityevents
+
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: api:v1
+    ports:
+      - 3000:3000
     volumes:
       - ./:/app
       - /app/node_modules
-    depends_on:
-      - db
     container_name: api
-    command: sh -c "npx sequelize-cli db:migrate --options-path=src/database/options.ts && npm run dev"
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - |
+        npm i
+        npm run migrate
+        npm run dev
+    networks:
+      - cityevents
+  api-test:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: api-test:v1
+    ports:
+      - 3001:3000
+    volumes:
+      - ./:/app
+    container_name: test-api
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - |
+        npm i
+        npm run migrate:undo:all
+        npm run migrate
+        npm run test
+    networks:
+      - cityevents
 
-volumes:
-  db-data:
+networks:
+  cityevents:

@@ -1,4 +1,5 @@
-// import * as dotenv from "dotenv";
+// import { config } from "dotenv";
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -12,10 +13,10 @@ module.exports = {
     logging: true,
   },
   test: {
-    username: "root",
-    password: null,
-    database: "cityevents",
-    host: "localhost",
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_TEST_HOST,
     dialect: "postgres",
   },
   production: {
