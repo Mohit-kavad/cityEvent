@@ -5,6 +5,7 @@ import {
   deleteUser,
   updateUser,
 } from "../controllers/userController";
+
 import { login, signUp } from "../controllers/authController";
 import { verifyToken } from "../middlewares/validation/auth/verifyToken";
 import { restrictTo } from "../middlewares/validation/auth/roleAuth";

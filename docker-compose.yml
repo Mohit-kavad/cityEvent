@@ -1,5 +1,4 @@
 version: "3.8"
-
 services:
   postgres:
     image: postgres
@@ -14,19 +13,6 @@ services:
     container_name: postgres
     networks:
       - cityevents
-
-  postgres-test:
-    image: postgres
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=admin123
-      - POSTGRES_DB=postgres
-    ports:
-      - 5431:5432
-    container_name: postgres-test
-    networks:
-      - cityevents
-
   api:
     build:
       context: .
@@ -46,6 +32,9 @@ services:
         npm run dev
     networks:
       - cityevents
+    depends_on:
+      - postgres
+      
   api-test:
     build:
       context: .
@@ -53,18 +42,17 @@ services:
     image: api-test:v1
     ports:
       - 3001:3000
-    volumes:
-      - ./:/app
-    container_name: test-api
+    container_name: api-test
     entrypoint: [ "/bin/sh", "-c" ]
     command:
       - |
         npm i
-        npm run migrate:undo:all
-        npm run migrate
+        npm run migrate:undo:all:test
+        npm run migrate:test
         npm run test
     networks:
       - cityevents
-
+    depends_on:
+      - postgres
 networks:
   cityevents:

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { User } from "../database/models/User";
+// import { User } from "../database/models/User";
+import { User } from "./../database/models/index";
 import { Request, Response } from "express";
 
 const signUp = async (req: Request, res: Response) => {
@@ -10,7 +11,7 @@ const signUp = async (req: Request, res: Response) => {
     const isExist = await User.findOne({ where: { email: email } });
     if (isExist) {
       return res.status(409).json({
-        message: "User already Exist",
+        error: "User already Exist",
       });
     }
     const user = await User.create({
@@ -64,7 +65,7 @@ const login = async (req: Request, res: Response) => {
       }
     );
 
-    res.status(201).json({
+    res.status(200).json({
       status: 200,
       message: "Success",
       token,
