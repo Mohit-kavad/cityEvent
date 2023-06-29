@@ -5,7 +5,10 @@ import { Event } from "./Event";
 User.hasMany(Event_page, { foreignKey: "userId" });
 Event_page.belongsTo(User, { foreignKey: "userId" });
 
-Event_page.hasMany(Event, { foreignKey: "eventPageId" });
-Event.belongsTo(Event_page, { foreignKey: "eventPageId" });
+Event_page.hasMany(Event, { as: "Hosted by", foreignKey: "eventPageId" });
+Event.belongsTo(Event_page, {
+  as: "Hosted by",
+  foreignKey: "eventPageId",
+});
 
 export { User, Event_page, Event };

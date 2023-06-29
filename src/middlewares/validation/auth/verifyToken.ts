@@ -24,12 +24,6 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
         });
       }
 
-      if (decode.tokenVersion !== isUserExist.tokenVersion) {
-        return res.status(401).json({
-          message: "You have recently changed your password please login",
-        });
-      }
-
       if (!isUserExist) {
         return res.status(401).json({
           message: "This user does not exist longer more",

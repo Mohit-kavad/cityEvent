@@ -8,6 +8,11 @@ import {
 } from "sequelize";
 import { sequelize } from "./connection";
 
+export type point = {
+  type: string;
+  coordinates: string[];
+};
+
 class Event extends Model<
   InferAttributes<Event>,
   InferCreationAttributes<Event>
@@ -20,9 +25,8 @@ class Event extends Model<
   declare endDate: string;
   declare startTime: string;
   declare endTime: string;
-  declare location: string;
+  declare location: point;
   declare eventPageId: number;
-  declare categoryId: number;
 }
 
 Event.init(
@@ -66,10 +70,6 @@ Event.init(
       allowNull: false,
     },
     eventPageId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    categoryId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
