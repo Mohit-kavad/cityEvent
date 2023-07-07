@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 const getUsers = async (req: Request, res: Response) => {
   try {
-    const data = await User.findAll({});
+    const data = await User.findAll({ where: {} });
     res.status(200).json({
       status: 200,
       message: "success",
@@ -32,6 +32,7 @@ const getUser = async (req: Request, res: Response) => {
       data,
     });
   } catch (error) {
+    console.log("==================", error);
     res.status(500).json(error);
   }
 };
@@ -40,6 +41,7 @@ const deleteUser = async (req: Request, res: Response) => {
   try {
     const userId: number = +req.params.id;
     const user = await User.findByPk(userId);
+
     if (!user) {
       return res.status(404).json({
         error: "User not found or deleted",

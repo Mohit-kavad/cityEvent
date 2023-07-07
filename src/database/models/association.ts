@@ -11,4 +11,7 @@ Event.belongsTo(Event_page, {
   foreignKey: "eventPageId",
 });
 
+User.hasMany(Event, { foreignKey: "userId" });
+Event.belongsTo(User, { foreignKey: "userId" });
+
 export { User, Event_page, Event };

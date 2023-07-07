@@ -33,6 +33,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
       // @ts-ignore
       req.user = isUserExist;
     }
+
     next();
   } catch (error) {
     res.status(500).json(error);

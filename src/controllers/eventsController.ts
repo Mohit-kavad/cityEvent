@@ -37,7 +37,7 @@ const createEvent = async (req: Request, res: Response) => {
 
     if (!isPageExist.some((page) => page.id === eventPageId)) {
       return res.status(400).json({
-        error: "the pageId does not exist or page is deleted",
+        error: "the pageId does not exist for this user or page is deleted",
       });
     }
 
@@ -47,7 +47,6 @@ const createEvent = async (req: Request, res: Response) => {
       type: "Point",
       coordinates: [coordinates[0], coordinates[1]],
     };
-    console.log(point);
 
     const event = await Event.create({
       eventTitle,
@@ -59,6 +58,7 @@ const createEvent = async (req: Request, res: Response) => {
       endTime,
       location: point,
       eventPageId,
+      userId: userId,
     });
 
     res.status(201).json({
@@ -73,13 +73,10 @@ const createEvent = async (req: Request, res: Response) => {
 
 const getEvents = async (req: Request, res: Response) => {
   try {
-    const events = await Event.findAll({
-      include: {
-        model: Event_page,
-        as: "Hosted by",
-        attributes: ["pageName"],
-      },
-    });
+    // @ts-ignore
+    const userId = req.user.id;
+    const events = await Event.findAll({ where: { userId: userId } });
+
     res.status(200).json({
       status: 200,
       message: "success",
@@ -96,6 +93,13 @@ const getEventById = async (req: Request, res: Response) => {
     const event = await Event.findByPk(eventId, {
       include: { model: Event_page, as: "Hosted by" },
     });
+
+    if (event === null) {
+      return res.status(404).json({
+        message: "Event Not found or deleted",
+      });
+    }
+
     res.status(200).json({
       status: 200,
       message: "success",
@@ -106,4 +110,83 @@ const getEventById = async (req: Request, res: Response) => {
   }
 };
 
-export { createEvent, getEvents, getEventById };
+const updateEvent = async (req: Request, res: Response) => {
+  try {
+    // @ts-ignore
+    const userId = req.user.id;
+    const eventId = req.params.eventId;
+    const {
+      eventTitle,
+      eventImage,
+      description,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      location,
+      eventPageId,
+    } = req.body;
+
+    const event = await Event.findOne({
+      where: {
+        id: eventId,
+        userId: userId,
+      },
+    });
+
+    if (!event) {
+      return res.status(404).json({
+        message: `you did not created any event from this id :${eventId}`,
+      });
+    }
+
+    const eventPage = await Event_page.findOne({
+      where: {
+        id: eventPageId,
+        userId: userId,
+      },
+    });
+
+    if (!eventPage) {
+      return res.status(404).json({
+        message: `you dont have this page, pageId = ${eventPageId}, please provide valid pageId`,
+      });
+    }
+
+    const coordinates = location.split(",");
+
+    const point: point = {
+      type: "Point",
+      coordinates: [coordinates[0], coordinates[1]],
+    };
+
+    const updatedData = await Event.update(
+      {
+        eventTitle,
+        eventImage,
+        description,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        location: point,
+        eventPageId,
+      },
+      {
+        where: {
+          id: eventId,
+        },
+      }
+    );
+
+    res.status(200).json({
+      status: 200,
+      message: "Success",
+      updatedData,
+    });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export { createEvent, getEvents, getEventById, updateEvent };

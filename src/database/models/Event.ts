@@ -18,6 +18,7 @@ class Event extends Model<
   InferCreationAttributes<Event>
 > {
   declare id: number;
+  declare userId: number;
   declare eventTitle: string;
   declare eventImage: string;
   declare description: string;
@@ -36,6 +37,10 @@ Event.init(
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     eventTitle: {
       type: DataTypes.STRING,

@@ -23,6 +23,10 @@ const createPage = async (req: Request, res: Response) => {
 const getPages = async (req: Request, res: Response) => {
   try {
     const pages = await Event_page.findAll({
+      where: {
+        // @ts-ignore
+        userId: req.user.id,
+      },
       attributes: ["id", "pageName", "userId", "createdAt", "updatedAt"],
       include: {
         model: User,
