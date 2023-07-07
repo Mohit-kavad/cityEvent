@@ -1,6 +1,11 @@
 import express, { Application, Response, Request } from "express";
 import dotenv from "dotenv";
-import { eventRouter, userRouter, pageRouter } from "./routes/index";
+import {
+  eventRouter,
+  userRouter,
+  pageRouter,
+  categoryRouter,
+} from "./routes/index";
 
 const app: Application = express();
 
@@ -10,6 +15,7 @@ app.use(express.json());
 app.use(userRouter);
 app.use(pageRouter);
 app.use(eventRouter);
+app.use(categoryRouter);
 
 app.use((req: Request, res: Response) => {
   res.status(404).send("Page Not Found");
