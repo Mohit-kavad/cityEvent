@@ -28,6 +28,7 @@ class Event extends Model<
   declare endTime: string;
   declare location: point;
   declare eventPageId: number;
+  declare categoryId: number[];
 }
 
 Event.init(
@@ -76,6 +77,10 @@ Event.init(
     },
     eventPageId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    categoryId: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
       allowNull: false,
     },
   },

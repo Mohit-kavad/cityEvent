@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { Event_page, Event } from "../database/models/index";
+import { Event_page, Event, Category } from "../database/models/index";
 import { point } from "../database/models/Event";
+import { CategoryEvent } from "../database/models/Categoryevent";
 
 const createEvent = async (req: Request, res: Response) => {
   try {
@@ -48,6 +49,8 @@ const createEvent = async (req: Request, res: Response) => {
       coordinates: [coordinates[0], coordinates[1]],
     };
 
+    const categories = req.body.categoryId;
+
     const event = await Event.create({
       eventTitle,
       eventImage,
@@ -59,8 +62,27 @@ const createEvent = async (req: Request, res: Response) => {
       location: point,
       eventPageId,
       userId: userId,
+      categoryId: categories,
     });
 
+    if (categories && categories.length > 0) {
+      //create association between event and category
+      console.log(categories, "+++++and+++++", categories.length);
+      for (let categoryId of categories) {
+        const category = await Category.findByPk(categoryId);
+
+        if (!category) {
+          return res.status(404).json({
+            message: `There is no any category id : ${category.id}`,
+          });
+        }
+        const eventAndCategory = await CategoryEvent.create({
+          categoryId,
+          eventId: event.id,
+        });
+        console.log(eventAndCategory);
+      }
+    }
     res.status(201).json({
       status: 201,
       message: "success",

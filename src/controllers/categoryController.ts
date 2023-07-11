@@ -58,16 +58,20 @@ const updateCategory = async (req: Request, res: Response) => {
     const categoryId = req.params.id;
     const { categoryName } = req.body;
     const isCategoryExist = await Category.findByPk(categoryId);
+
     if (!isCategoryExist) {
       return res.status(409).json({
         error: "category does not exist or deleted",
       });
     }
-    const updatedCategory = await Category.update(categoryName, {
-      where: {
-        id: categoryId,
-      },
-    });
+    const updatedCategory = await Category.update(
+      { categoryName },
+      {
+        where: {
+          id: categoryId,
+        },
+      }
+    );
     res.status(200).json({
       status: 200,
       message: "Success",
@@ -94,7 +98,9 @@ const deleteCategoryById = async (req: Request, res: Response) => {
       status: 200,
       message: "success",
     });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 export {
