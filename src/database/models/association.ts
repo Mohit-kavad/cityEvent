@@ -3,6 +3,9 @@ import { Event_page } from "./Event_page";
 import { Event } from "./Event";
 import { Category } from "./Category";
 import { Ticket } from "./Ticket";
+import { orderItem } from "./Orderitem";
+import { ticketOrder } from "./Ticketorder";
+import { Payment } from "./Payment";
 
 User.hasMany(Event_page, { foreignKey: "userId" });
 Event_page.belongsTo(User, { foreignKey: "userId" });
@@ -32,4 +35,22 @@ Event.hasMany(Ticket, {
 });
 Ticket.belongsTo(Event, { foreignKey: "eventId" });
 
-export { User, Event_page, Event, Category, Ticket };
+Ticket.hasMany(orderItem, { foreignKey: "tickeTypeId" });
+orderItem.belongsTo(Ticket, { foreignKey: "tickeTypeId" });
+
+ticketOrder.hasMany(orderItem, { foreignKey: "ticketOrderId" });
+orderItem.belongsTo(ticketOrder, { foreignKey: "ticketOrderId" });
+
+ticketOrder.hasOne(Payment, { foreignKey: "ticketOrderId" });
+Payment.belongsTo(ticketOrder, { foreignKey: "ticketOrderId" });
+
+export {
+  User,
+  Event_page,
+  Event,
+  Category,
+  Ticket,
+  orderItem,
+  Payment,
+  ticketOrder,
+};
