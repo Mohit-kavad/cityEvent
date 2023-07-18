@@ -10,6 +10,7 @@
     "dev": "export NODE_ENV=development && nodemon --exec ts-node --esm src/server.ts",
     "migrate": "export NODE_ENV=development && npx sequelize-cli db:migrate --options-path=src/database/options.ts",
     "migrate:undo:all": "export NODE_ENV=development && sequelize db:migrate:undo:all --options-path=src/database/options.ts",
+    "migrate:undo": "export NODE_ENV=development && sequelize db:migrate:undo --options-path=src/database/options.ts",
     "migrate:test": "export NODE_ENV=test && sequelize db:migrate --options-path=src/database/options.ts",
     "migrate:undo:all:test": "export NODE_ENV=test && sequelize db:migrate:undo:all --options-path=src/database/options.ts",
     "test": "export NODE_ENV=test && jest --detectOpenHandles --watchAll"

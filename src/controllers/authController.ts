@@ -75,4 +75,6 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
+// logout
+
 export { signUp, login };

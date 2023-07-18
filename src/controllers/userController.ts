@@ -32,7 +32,6 @@ const getUser = async (req: Request, res: Response) => {
       data,
     });
   } catch (error) {
-    console.log("==================", error);
     res.status(500).json(error);
   }
 };

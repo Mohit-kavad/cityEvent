@@ -2,6 +2,7 @@ import { User } from "./User";
 import { Event_page } from "./Event_page";
 import { Event } from "./Event";
 import { Category } from "./Category";
+import { Ticket } from "./Ticket";
 
 User.hasMany(Event_page, { foreignKey: "userId" });
 Event_page.belongsTo(User, { foreignKey: "userId" });
@@ -26,4 +27,9 @@ Category.belongsToMany(Event, {
   otherKey: "eventId",
 });
 
-export { User, Event_page, Event, Category };
+Event.hasMany(Ticket, {
+  foreignKey: "eventId",
+});
+Ticket.belongsTo(Event, { foreignKey: "eventId" });
+
+export { User, Event_page, Event, Category, Ticket };

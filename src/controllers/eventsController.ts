@@ -30,11 +30,11 @@ const createEvent = async (req: Request, res: Response) => {
       eventPageId,
     } = req.body;
 
-    if (eventPageId === undefined) {
-      return res.status(400).json({
-        error: "eventPageId is required",
-      });
-    }
+    // if (eventPageId === undefined) {
+    //   return res.status(400).json({
+    //     error: "eventPageId is required",
+    //   });
+    // }
 
     if (!isPageExist.some((page) => page.id === eventPageId)) {
       return res.status(400).json({
@@ -67,7 +67,7 @@ const createEvent = async (req: Request, res: Response) => {
 
     if (categories && categories.length > 0) {
       //create association between event and category
-      console.log(categories, "+++++and+++++", categories.length);
+
       for (let categoryId of categories) {
         const category = await Category.findByPk(categoryId);
 
