@@ -41,7 +41,7 @@ Ticket.init(
     },
     availableTickets: {
       type: DataTypes.STRING,
-      defaultValue: null,
+      allowNull: false,
     },
     ticketDescription: {
       type: DataTypes.STRING,

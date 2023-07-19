@@ -1,16 +1,54 @@
 import { Request, Response } from "express";
-import { ticketOrder } from "../database/models";
-import { now } from "sequelize/types/utils";
+import { Ticket, orderItem, ticketOrder } from "../database/models";
 
-const booTicket = async (req: Request, res: Response) => {
-  const { name, email, phone, tickeTypeId } = req.body;
-  console.log("user details +++++++", { name, email, phone, tickeTypeId });
+const bookTicket = async (req: Request, res: Response) => {
+  try {
+    const { tickets } = req.body;
 
-  const ticketOrders = await ticketOrder.create({
-    ticketStatus: "booked",
-    totalAmount: 100,
-    registrationDate: new Date(),
-  });
+    const ticketOrders = await ticketOrder.create({
+      ticketStatus: "pending",
+      totalAmount: 0,
+      registrationDate: new Date(),
+    });
+
+    for (const ticketData of tickets) {
+      console.log(tickets, "/*/*/*/*/*/*/*/*/*//**/*/*/*");
+      const { name, email, phone, tickeTypeId } = ticketData;
+
+      // check isTicket Type availble or not
+
+      const ticket = await Ticket.findByPk(tickeTypeId);
+      console.log("ticket", ticket);
+
+      if (!ticket) {
+        return res
+          .status(404)
+          .json({ message: `Ticket not found with ID ${tickeTypeId}` });
+      }
+      return;
+      const totalAmount: number = ticket.ticketPrice;
+
+      await orderItem.create({
+        name,
+        email,
+        phone,
+        tickeTypeId,
+        ticketPrice: ticket.ticketPrice,
+        ticketOrderId: ticketOrders.id,
+      });
+
+      ticketOrders.totalAmount += totalAmount;
+      await ticketOrders.save();
+    }
+
+    res.status(201).json({
+      status: 201,
+      message: "success",
+      ticketOrders,
+    });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
-export { booTicket };
+export { bookTicket };

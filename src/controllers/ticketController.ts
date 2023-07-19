@@ -8,6 +8,7 @@ const createTicket = async (req: Request, res: Response) => {
       ticketPrice,
       totalTickets,
       ticketDescription,
+      availableTickets,
       eventId,
     } = req.body;
 
@@ -23,6 +24,7 @@ const createTicket = async (req: Request, res: Response) => {
       ticketPrice,
       totalTickets,
       ticketDescription,
+      availableTickets,
       eventId,
     });
 

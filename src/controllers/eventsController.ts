@@ -51,6 +51,15 @@ const createEvent = async (req: Request, res: Response) => {
 
     const categories = req.body.categoryId;
 
+    for (const categoryId of categories) {
+      const isCategoryExist = await Category.findByPk(categoryId);
+
+      if (isCategoryExist === null) {
+        return res.status(404).json({
+          message: `There is no any category id : ${categoryId}`,
+        });
+      }
+    }
     const event = await Event.create({
       eventTitle,
       eventImage,
@@ -64,31 +73,22 @@ const createEvent = async (req: Request, res: Response) => {
       userId: userId,
       categoryId: categories,
     });
+    //enter values in CategoryEvent
+    categories.forEach(async (categoryId: number) => {
+      await CategoryEvent.create({
+        categoryId,
+        eventId: event.id,
+      });
+    });
 
-    if (categories && categories.length > 0) {
-      //create association between event and category
-
-      for (let categoryId of categories) {
-        const category = await Category.findByPk(categoryId);
-
-        if (!category) {
-          return res.status(404).json({
-            message: `There is no any category id : ${category.id}`,
-          });
-        }
-        const eventAndCategory = await CategoryEvent.create({
-          categoryId,
-          eventId: event.id,
-        });
-        console.log(eventAndCategory);
-      }
-    }
     res.status(201).json({
       status: 201,
       message: "success",
       event,
     });
   } catch (error) {
+    console.log("------------------------------------------", error);
+
     res.status(500).json(error);
   }
 };

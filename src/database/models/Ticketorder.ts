@@ -15,7 +15,7 @@ class ticketOrder extends Model<
   declare id: number;
   declare ticketStatus: string;
   declare totalAmount: number;
-  declare registrationDate: string;
+  declare registrationDate: Date;
 }
 
 ticketOrder.init(
