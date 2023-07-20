@@ -39,8 +39,8 @@ Event.hasMany(Ticket, {
 });
 Ticket.belongsTo(Event, { foreignKey: "eventId" });
 
-Ticket.hasMany(orderItem, { foreignKey: "tickeTypeId" });
-orderItem.belongsTo(Ticket, { foreignKey: "tickeTypeId" });
+Ticket.hasMany(orderItem, { foreignKey: "ticketTypeId" });
+orderItem.belongsTo(Ticket, { foreignKey: "ticketTypeId" });
 
 ticketOrder.hasMany(orderItem, { foreignKey: "ticketOrderId" });
 orderItem.belongsTo(ticketOrder, { foreignKey: "ticketOrderId" });

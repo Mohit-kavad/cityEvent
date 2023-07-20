@@ -18,16 +18,20 @@ module.exports = {
         allowNull: false,
       },
       phone: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       ticketPrice: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      tickeTypeId: {
+      ticketTypeId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "Tickets",
+          key: "id",
+        },
       },
       ticketOrderId: {
         type: Sequelize.INTEGER,

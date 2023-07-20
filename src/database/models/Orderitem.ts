@@ -14,9 +14,9 @@ class orderItem extends Model<
   declare id: number;
   declare name: string;
   declare email: string;
-  declare phone: number;
+  declare phone: string;
   declare ticketPrice: number;
-  declare tickeTypeId: number;
+  declare ticketTypeId: number;
   declare ticketOrderId: number;
 }
 
@@ -37,14 +37,14 @@ orderItem.init(
       allowNull: false,
     },
     phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     ticketPrice: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    tickeTypeId: {
+    ticketTypeId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

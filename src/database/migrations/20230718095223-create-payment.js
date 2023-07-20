@@ -32,6 +32,10 @@ module.exports = {
       ticketOrderId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "ticketOrders",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,
