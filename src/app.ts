@@ -9,6 +9,7 @@ import {
   ticketBookingRouter,
   reviewRouter,
 } from "./routes/index";
+// import { mainCornJob } from "./service/review/cronJob";
 
 const app: Application = express();
 
@@ -22,6 +23,8 @@ app.use(categoryRouter);
 app.use(ticketRouter);
 app.use(ticketBookingRouter);
 app.use(reviewRouter);
+
+// mainCornJob();
 
 app.use((req: Request, res: Response) => {
   res.status(404).send("Page Not Found");
