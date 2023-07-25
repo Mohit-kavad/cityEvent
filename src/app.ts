@@ -7,6 +7,7 @@ import {
   categoryRouter,
   ticketRouter,
   ticketBookingRouter,
+  reviewRouter,
 } from "./routes/index";
 
 const app: Application = express();
@@ -20,6 +21,7 @@ app.use(eventRouter);
 app.use(categoryRouter);
 app.use(ticketRouter);
 app.use(ticketBookingRouter);
+app.use(reviewRouter);
 
 app.use((req: Request, res: Response) => {
   res.status(404).send("Page Not Found");

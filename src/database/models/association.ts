@@ -7,6 +7,7 @@ import { orderItem } from "./Orderitem";
 import { ticketOrder } from "./Ticketorder";
 import { Payment } from "./Payment";
 import { CategoryEvent } from "./Categoryevent";
+import { Review } from "./Review";
 
 User.hasMany(Event_page, { foreignKey: "userId" });
 Event_page.belongsTo(User, { foreignKey: "userId" });
@@ -48,6 +49,12 @@ orderItem.belongsTo(ticketOrder, { foreignKey: "ticketOrderId" });
 ticketOrder.hasOne(Payment, { foreignKey: "ticketOrderId" });
 Payment.belongsTo(ticketOrder, { foreignKey: "ticketOrderId" });
 
+User.hasMany(Review, { foreignKey: "userId" });
+Review.belongsTo(User, { foreignKey: "userId" });
+
+Event.hasMany(Review, { foreignKey: "eventId" });
+Review.belongsTo(Event, { foreignKey: "eventId" });
+
 export {
   User,
   Event_page,
@@ -58,4 +65,5 @@ export {
   Payment,
   ticketOrder,
   CategoryEvent,
+  Review,
 };
