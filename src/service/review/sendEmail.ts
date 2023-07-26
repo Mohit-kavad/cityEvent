@@ -1,14 +1,31 @@
 import nodemailer from "nodemailer";
 
-const sendEmail = async (to, subject, content) => {
+const sendEmail = async (to: any, subject: any, content: any) => {
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    auth: {
+      user: "programmingwithmohit@gmail.com",
+      pass: "cxqocgiqfwcogxup",
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
   });
+
+  const mailOptions = {
+    from: "programminwithmohit@gmail.com",
+    to: to,
+    subject: subject,
+    text: content,
+  };
+
+  await transporter.sendMail(mailOptions);
 };
 
 const sendEmailToBuyers = async (buyers: any, event: any) => {
   for (const buyer of buyers) {
-    const emailContent = `Hello ${buyer.name},\n\nThe event "${event.name}" has ended. Thank you for attending the event and purchasing tickets. We hope you had a great time!\n\nWe value your feedback. If you enjoyed the event, we would appreciate it if you could take a moment to leave a review. Your feedback will help us improve and provide better experiences in the future.\n\nBest regards,\nThe Event Team`;
+    const emailContent = `Hello ${buyer.name},\n\nThe event "${buyer.eventTitle}" has ended. Thank you for attending the event and purchasing tickets. We hope you had a great time!\n\nWe value your feedback. If you enjoyed the event, we would appreciate it if you could take a moment to leave a review. Your feedback will help us improve and provide better experiences in the future.\n\nBest regards,\nThe Event Team`;
 
     sendEmail(buyer.email, "Event Ended", emailContent)
       .then(() => {

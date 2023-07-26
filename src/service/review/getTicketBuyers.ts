@@ -4,26 +4,20 @@ import { sequelize } from "../../database/models/connection";
 
 const getTicketBuyersForEvent = async (eventId: number) => {
   try {
-    // const orders = await orderItem.findAll({where:{
-
-    // }})
-
     const query = `SELECT OI."name",
-                   OI."email",
-                   OI."ticketTypeId",
-                   TK."id" AS "ticket id",
-                   TK."eventId"
-                   FROM "orderItems" AS OI
-                   INNER JOIN "Tickets" AS TK ON OI."ticketTypeId" = TK."id" 
-                   WHERE tk."eventId" = ${eventId}`;
+                    OI."email",
+                    OI."ticketTypeId",
+                    TK."id" AS "ticket id",
+                    TK."eventId",
+                    Ev."eventTitle"
+                    FROM "orderItems" AS OI
+                    INNER JOIN "Tickets" AS TK ON OI."ticketTypeId" = TK."id" 
+                    INNER JOIN "Events" AS Ev ON TK."eventId" = Ev."id"
+                    WHERE tk."eventId" = ${eventId}`;
 
     const orders = await sequelize.query(query, {
       type: QueryTypes.SELECT,
     });
-    console.log(
-      "🚀 ~ file: getTicketBuyers.ts:23 ~ getTicketBuyersForEvent ~ orders:",
-      orders
-    );
     return orders;
   } catch (error) {
     throw error;
