@@ -65,8 +65,6 @@ const bookTicket = async (req: Request, res: Response) => {
       })
     );
 
-    console.log("hello i am payload", allTicketOrders);
-
     await orderItem.bulkCreate(allTicketOrders);
 
     res.status(201).json({

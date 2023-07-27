@@ -1,4 +1,3 @@
-// import { orderItem } from "../../database/models";
 import { QueryTypes } from "sequelize";
 import { sequelize } from "../../database/models/connection";
 

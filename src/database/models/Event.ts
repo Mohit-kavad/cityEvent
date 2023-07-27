@@ -22,8 +22,6 @@ class Event extends Model<
   declare eventTitle: string;
   declare eventImage: string;
   declare description: string;
-  declare startDate: string;
-  declare endDate: string;
   declare startTime: string;
   declare endTime: string;
   declare location: point;
@@ -53,14 +51,6 @@ Event.init(
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    startDate: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    endDate: {
-      type: DataTypes.DATE,
       allowNull: false,
     },
     startTime: {

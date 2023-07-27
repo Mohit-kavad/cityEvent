@@ -1,29 +1,18 @@
-import { literal } from "sequelize";
-import { Event } from "../../database/models";
-import { Op } from "sequelize";
+import { QueryTypes } from "sequelize";
+import { sequelize } from "../../database/models/connection";
 
+interface IEvent {
+  id: number;
+}
 const getEndedEvents = async () => {
   try {
-    const currentDate = new Date();
-    const previousDayDate = new Date();
-    previousDayDate.setDate(currentDate.getDate() - 1);
-    previousDayDate;
-    console.log(
-      "🚀 ~ file: getEndedEvents.ts:8 ~ getEndedEvents ~ previousDayDate:",
-      previousDayDate
-    );
-
-    const endedEvents = await Event.findAll({
-      where: {
-        endDate: {
-          [Op.eq]: literal(`${previousDayDate.toISOString()}`),
-        },
-      },
+    const query = `SELECT *
+                    FROM public."Events"
+                    WHERE DATE("endTime") = CURRENT_DATE - 1  ;
+                    `;
+    const endedEvents: IEvent[] = await sequelize.query(query, {
+      type: QueryTypes.SELECT,
     });
-    console.log(
-      "🚀 ~ file: getEndedEvents.ts:10 ~ getEndedEvents ~ endedEvents:",
-      endedEvents
-    );
 
     return endedEvents;
   } catch (error) {

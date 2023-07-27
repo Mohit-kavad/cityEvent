@@ -5,8 +5,8 @@ const sendEmail = async (to: any, subject: any, content: any) => {
     host: "smtp.gmail.com",
     port: 465,
     auth: {
-      user: "programmingwithmohit@gmail.com",
-      pass: "cxqocgiqfwcogxup",
+      user: process.env.EMAIL,
+      pass: process.env.GMAIL_PASSWORD,
     },
     tls: {
       rejectUnauthorized: false,
@@ -14,7 +14,7 @@ const sendEmail = async (to: any, subject: any, content: any) => {
   });
 
   const mailOptions = {
-    from: "programminwithmohit@gmail.com",
+    from: process.env.EMAIL,
     to: to,
     subject: subject,
     text: content,
