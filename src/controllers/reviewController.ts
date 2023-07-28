@@ -1,13 +1,22 @@
-// import { Request, Response } from "express";
-// import { Event } from "../database/models";
+import { Request, Response } from "express";
+import { Ticket, orderItem } from "../database/models";
 
-// const createReview = async (req: Request, res: Response) => {
-//   const { rating, comment, eventId, userId } = req.body;
+const createReview = async (req: Request, res: Response) => {
+  const ticketBuyerId = req.params.id;
 
-//   const event = await Event.findByPk(eventId);
-//   if (!event) {
-//     return res.status(404).json({
-//       message: `You can not write review of this event`,
-//     });
-//   }
-// };
+  //   const { rating, comment, eventId, buyerId, } = req.body;
+
+  const isBuyerExist = await orderItem.findByPk(ticketBuyerId, {
+    include: [
+      {
+        model: Ticket,
+      },
+    ],
+  });
+  console.log(
+    "🚀 ~ file: reviewController.ts:23 ~ createReview ~ isBuyerExist:",
+    isBuyerExist
+  );
+};
+
+export { createReview };

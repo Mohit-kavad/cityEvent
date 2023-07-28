@@ -18,7 +18,7 @@ class Review extends Model<
   declare comment: string;
   declare reviewDate: Date;
   declare eventId: number;
-  declare userId: number;
+  declare orderItemsId: number;
 }
 
 Review.init(
@@ -44,7 +44,7 @@ Review.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    userId: {
+    orderItemsId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

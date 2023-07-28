@@ -49,8 +49,8 @@ orderItem.belongsTo(ticketOrder, { foreignKey: "ticketOrderId" });
 ticketOrder.hasOne(Payment, { foreignKey: "ticketOrderId" });
 Payment.belongsTo(ticketOrder, { foreignKey: "ticketOrderId" });
 
-User.hasMany(Review, { foreignKey: "userId" });
-Review.belongsTo(User, { foreignKey: "userId" });
+orderItem.hasOne(Review, { foreignKey: "orderItemsId" });
+Review.belongsTo(orderItem, { foreignKey: "orderItemsId" });
 
 Event.hasMany(Review, { foreignKey: "eventId" });
 Review.belongsTo(Event, { foreignKey: "eventId" });
