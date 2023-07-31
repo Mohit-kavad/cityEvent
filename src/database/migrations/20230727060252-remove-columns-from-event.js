@@ -9,11 +9,11 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.addColumn("Events", "startDate", {
-      type: DataTypes.DATE,
+      type: Sequelize.DATE,
       allowNull: false,
     });
     await queryInterface.addColumn("Events", "endDate", {
-      type: DataTypes.DATE,
+      type: Sequelize.DATE,
       allowNull: false,
     });
   },

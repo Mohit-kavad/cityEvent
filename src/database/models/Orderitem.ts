@@ -11,6 +11,7 @@ class orderItem extends Model<
   InferAttributes<orderItem>,
   InferCreationAttributes<orderItem>
 > {
+  [x: string]: any;
   declare id: number;
   declare name: string;
   declare email: string;
